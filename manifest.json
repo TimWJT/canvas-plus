@@ -1,0 +1,88 @@
+{
+  "manifest_version": 3,
+  "name": "Canvas Plus",
+  "version": "1.0.0",
+  "description": "Dark mode, assignments on course cards, a better to-do list, dashboard notes, due-date reminders and bulk course-file downloads for Canvas LMS. Based on Better Canvas.",
+  "icons": {
+    "16": "icon/icon-16.png",
+    "32": "icon/icon-32.png",
+    "48": "icon/icon-48.png",
+    "128": "icon/icon-128.png"
+  },
+  "action": {
+    "default_icon": {
+      "16": "icon/icon-16.png",
+      "32": "icon/icon-32.png"
+    },
+    "default_popup": "html/popup.html",
+    "default_title": "Canvas Plus"
+  },
+  "background": {
+    "scripts": [
+      "js/background.js"
+    ]
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "https://*.instructure.com/*"
+      ],
+      "js": [
+        "js/reminders.js",
+        "js/content.js"
+      ],
+      "css": [
+        "css/content.css",
+        "css/reminders.css"
+      ],
+      "run_at": "document_start"
+    },
+    {
+      "matches": [
+        "https://*/*"
+      ],
+      "exclude_matches": [
+        "https://*.instructure.com/*"
+      ],
+      "js": [
+        "js/reminders.js"
+      ],
+      "css": [
+        "css/reminders.css"
+      ],
+      "run_at": "document_idle"
+    }
+  ],
+  "permissions": [
+    "storage",
+    "activeTab",
+    "scripting",
+    "downloads"
+  ],
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "canvas-plus@timwjt",
+      "strict_min_version": "128.0",
+      "data_collection_permissions": {
+        "required": [
+          "none"
+        ]
+      }
+    }
+  },
+  "host_permissions": [
+    "https://*.instructure.com/*"
+  ],
+  "sidebar_action": {
+    "default_panel": "html/downloader.html?sidebar=1",
+    "default_title": "Canvas Plus downloads",
+    "default_icon": {
+      "16": "icon/icon-16.png",
+      "32": "icon/icon-32.png"
+    },
+    "open_at_install": false
+  },
+  "optional_host_permissions": [
+    "https://*/*"
+  ]
+}

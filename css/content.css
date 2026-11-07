@@ -1,0 +1,96 @@
+.extension-weight_select{display:inline-block;margin:0;}
+.hypodivcalc span {font-weight: bold}
+.hypodivcalc{display: flex;min-width:calc(33.33% - 50px);box-shadow: #9da5ab80 0px 2px 5px;align-items:center;background-color:#eee;border-radius:7px;margin:10px 5px 0;padding:20px;width:calc(33.33% - 50px);}
+.hypocalcform span{font-weight:700;min-width:50%;}
+.ic-DashboardCard__header_hero {border:0!important}
+.bettercanvas-completed{text-decoration:line-through;}
+.bettercanvas-completed a{text-decoration:line-through;}
+.extension-embed-hidden {display: none!important}
+.extension-linkpreview {background-color:#eee;border:none;border-radius:7px;padding:5px 15px;color:#6C757C;font-weight:bold;box-shadow: #9da5ab80 0px 2px 5px;margin: 5px 2px}
+.extension-linkpreview:hover {background-color:#e6e6e6;}
+.extension-linkpreview:focus {outline: none}
+.hypocalcform-collector {display: flex;flex-wrap:wrap;}
+.extension-aldue ~ .extension-al{font-size: 40px;background-color: red;}
+.extension-update {box-shadow: 0 2px 5px rgb(0 0 0 / 30%);opacity: .9;border-radius: 3px;color: #000;padding: 20px;z-index:100;position: absolute;width: 360px; height: 192px; background-color: #fff;top: 0; bottom: 0; left: 0; right: 0; margin: auto;}
+.extension-updateclose {position:absolute;top:5px;right:5px;border:none;background:none;color: #000!important;font-size: 32px;padding: 5px;}
+.extension-skeleton {height:36px;display:flex;align-items:center;margin-bottom:5px;}
+.extension-skeleton-text {margin-left: 18px;background: #ededed;width: 160px;height: 16px;animation: blink .5s infinite;}
+.bettercanvas-card-container {padding-bottom: 4px;}
+.bettercanvas-assignment-container {margin: 0;padding:0;color: var(--ic-brand-font-color-dark-lightened-30);display: flex;justify-content:space-between;font-size:14px;align-items: center;transition:.2s all;}
+.bettercanvas-card-header-container {align-items: center;display: flex;justify-content: space-between;padding: 0 18px;color:var(--ic-brand-font-color-dark-lightened-30);font-size:16px;font-weight:700;margin: 0;}
+.bettercanvas-card-header-container h3, .bettercanvas-card-header-container a{font-size: 16px;font-weight: bold;}
+.bettercanvas-card-header {color: var(--ic-brand-font-color-dark-lightened-30);margin-block:0;}
+.bettercanvas-assignment-container:hover {background: #eee;cursor: pointer;color: var(--ic-brand-font-color-dark-lightened-30);}
+.bettercanvas-assignment-link {flex: 1;text-decoration:none;margin: 0;padding:8px 18px;word-break: break-word;color:var(--ic-brand-font-color-dark-lightened-30)}
+.bettercanvas-assignment-dueat {padding: 4px 8px;margin-right: 10px;border-radius: 4px;}
+.bettercanvas-assignment-dueat:hover {box-shadow: 0 1px 4px #000!important}
+.bettercanvas-skeleton-text {background: #ededed;width: 160px;height: 16px;animation: blink .5s infinite;margin-left: 18px;margin-bottom: 12px;margin-top: 8px;}
+.bettercanvas-add-assignment {max-height: 0; overflow:hidden;transition: .3s max-height;}
+.bettercanvas-custom-open {max-height: 250px}
+.bettercanvas-custom-input {box-sizing: border-box!important; width: 100%!important; height: 32px!important}
+.bettercanvas-custom-btn {background: #f5f5f5; border: 1px solid #c7cdd1; border-radius:6px; padding: 2px 8px;}
+.bettercanvas-viewmore-btn {display: block;margin:0 auto;margin-top: 8px;}
+.bettercanvas-dashboard-notes {width: 100%; box-sizing: border-box; margin-top: 18px;border: 1px solid #c7cdd1;border-radius:3px;padding:8px 14px;resize:vertical}
+.bettercanvas-todosidebar, #bettercanvas-todo-list, #bettercanvas-announcement-list {margin: 0}
+.bettercanvas-todo-container {display: flex; margin-top: 14px;position: relative;transition: .2s all;}
+.bettercanvas-removing {max-height: 0;margin-top: 0}
+#bettercanvas-todo-list, #bettercanvas-announcement-list {font-size: 12px}
+.bettercanvas-todo-container, .bettercanvas-todo-container:hover {color:#777}
+.bettercanvas-todo-container p {margin: 0!important;}
+.bettercanvas-todo-icon svg {height: 18px; width: 18px;margin:0}
+.bettercanvas-todoitem-course {overflow: hidden; text-overflow: ellipsis;white-space: nowrap;}
+.bettercanvas-todoitem-title {font-size: 14px;font-weight:bold;display:inline;margin-top:2px;}
+.bettercanvas-todoitem-date {font-weight: bold}
+.bettercanvas-todo-item-completed {text-decoration: line-through;}
+.bettercanvas-todo-item {overflow: hidden;margin-left: 12px;}
+.bettercanvas-todo-item {width:100%;margin-left: 12px;color: #777}
+.bettercanvas-todo-item:hover {text-decoration: underline;cursor: pointer;color: #777;}
+.bettercanvas-todo-complete-btn {padding: 0;height: 28px; width: 28px; border-radius: 3px; display: none; right: 0; top: 0; position:absolute;z-index: 100;background: #fff; border: none;}
+.bettercanvas-todo-complete-btn:hover {background:#eaebec}
+.bettercanvas-todo-container .bettercanvas-todo-complete-btn {display: none}
+.bettercanvas-todo-container:hover .bettercanvas-todo-complete-btn {display: block}
+#bettercanvas-announcement-list {margin-bottom:1.0625rem;}
+.bettercanvas-todo-item-loader {margin-top: 18px;}
+.bettercanvas-todo-item-loader .bettercanvas-skeleton-text {height:12px;margin-top: 8px;margin-bottom:0;margin-left:25px}
+.bettercanvas-hover-preview {position: absolute;top: -6px;left: -400px;display: none; background: #fff; color: #000; max-height: 300%; width: 350px; padding:12px;border-radius:5px; overflow: hidden;box-shadow: 0 2px 5px rgba(0,0,0,.3)}
+.bettercanvas-preview-text {text-overflow: ellipsis;}
+.bettercanvas-preview-title {font-weight:bold;font-size:14px;}
+.bettercanvas-hover-preview::after {content:'';position:absolute;width:100%;height: 18px;bottom:0;left:0;background:linear-gradient(0deg, #fff 50%, transparent)}
+.bettercanvas-due-soon {background: #db3754; padding: 1px 4px; color: #fff; border-radius: 4px;display:inline-block}
+.bettercanvas-assignment-overdue { background: #db3754!important;color:#fff!important;}
+.bettercanvas-todo-label-btn {display:inline-block;margin:0px 2px 2px 0;background: #f5f5f5;border:1px solid #c7cdd1;padding: 2px;border-radius:4px;}
+.bettercanvas-todo-label {background: var(--ic-link-color);color:#fff;padding:2px 4px;border-radius:3px;display:inline;height:100%;margin-right:5px;}
+.bettercanvas-todo-action {border-radius: 5px;}
+.bettercanvas-todo-actions {position: absolute; top: 0; right: 0; background: #fff;width:110px;font-weight:bold; color:#000;display:none;z-index:1000;border-radius:3px;border: 1px solid #c7cdd1;padding:10px}
+.bettercanvas-todo-actions-btn { border:1px solid transparent; height: 20px;width: 20px;background: none;padding: 0;margin: 0;border-radius:3px;}
+.bettercanvas-todo-action, .bettercanvas-todo-action-tag { padding: 4px; margin: -2px 0;display:flex;justify-content: space-between;align-items:center;}
+.bettercanvas-todo-action:hover {background: #f5f5f5;cursor:pointer}
+.bettercanvas-todo-input {width: 100%!important;box-sizing: border-box!important;border-radius: 5px!important;height: 24px!important;padding:4px!important;margin:0!important;font-size:12px!important}
+.bettercanvas-todo-header:hover {cursor:pointer;text-decoration:underline}
+.bettercanvas-todo-actions svg {height: 18px; width:18px;}
+.bettercanvas-todo-item-header {max-height:80px;overflow:hidden;}
+.bettercanvas-todo-svg {fill:#2d3b45!important}
+@keyframes slide {
+    0% {
+        right: -320px;
+    }
+    100% {
+        right: 0;
+    }
+}
+@keyframes blink {
+    50% {
+        opacity: .5;
+    }
+}
+
+/* Grades page sidebar: let long buttons like "Show Saved What-If Scores" wrap instead of spilling out of their box */
+#student-grades-right-content .Button,
+#student-grades-right-content button {
+    height: auto !important;
+    min-height: 0 !important;
+    white-space: normal !important;
+    overflow: visible !important;
+    max-width: 100%;
+    box-sizing: border-box;
+}

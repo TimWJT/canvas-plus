@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Canvas Plus</title>
+    <link href="../css/popup.css" rel="stylesheet">
+</head>
+
+<body>
+    <div class="main">
+        <div class="header">
+            <img id="bclogo" src="../icon/icon-128.png" alt="">
+            <h1>Canvas Plus</h1>
+            <div class="option master" id="enabled" title="Turn all of Canvas Plus on or off">
+                <input type="radio" id="off" name="enabled">
+                <input type="radio" id="on" name="enabled">
+                <div class="slider"><div class="sliderknob"></div><div class="sliderbg"></div></div>
+                <span class="option-name" id="enabled_label">On</span>
+            </div>
+        </div>
+        <div class="options">
+            <div class="options-left">
+                <div class="option-container">
+                    <div class="option" id="dark_mode">
+                        <input type="radio" id="off" name="dark_mode">
+                        <input type="radio" id="on" name="dark_mode">
+                        <div class="slider"><div class="sliderknob"></div><div class="sliderbg"></div></div>
+                        <span class="option-name">Dark mode</span>
+                    </div>
+                </div>
+                <div class="option-container">
+                    <div class="option" id="assignments_due">
+                        <input type="radio" id="off" name="assignments_due">
+                        <input type="radio" id="on" name="assignments_due">
+                        <div class="slider"><div class="sliderknob"></div><div class="sliderbg"></div></div>
+                        <span class="option-name">Card assignments</span>
+                    </div>
+                    <div class="sub-options">
+                        <div class="sub-option">
+                            <input type="checkbox" id="assignment_date_format">
+                            <label for="assignment_date_format" class="sub-text">Use dd/mm</label>
+                        </div>
+                        <div class="sub-option">
+                            <input type="checkbox" id="card_overdues">
+                            <label for="card_overdues" class="sub-text">Show past due</label>
+                        </div>
+                        <div class="sub-option">
+                            <input type="checkbox" id="relative_dues">
+                            <label for="relative_dues" class="sub-text">Relative due dates</label>
+                        </div>
+                        <div style="margin-top: 5px">
+                            <span class="sub-text">Max items: </span><span id="num_assignments_value"></span>
+                            <input type="range" min="1" max="10" id="numAssignmentsSlider" data-option="num_assignments">
+                        </div>
+                    </div>
+                </div>
+                <div class="option-container">
+                    <div class="option" id="remind">
+                        <input type="radio" id="off" name="remind">
+                        <input type="radio" id="on" name="remind">
+                        <div class="slider"><div class="sliderknob"></div><div class="sliderbg"></div></div>
+                        <span class="option-name">Todo reminders</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="options-right">
+                <div class="option-container">
+                    <div class="option" id="better_todo">
+                        <input type="radio" id="off" name="better_todo">
+                        <input type="radio" id="on" name="better_todo">
+                        <div class="slider"><div class="sliderknob"></div><div class="sliderbg"></div></div>
+                        <span class="option-name">Better todo list</span>
+                    </div>
+                    <div class="sub-options">
+                        <div class="sub-option">
+                            <input type="checkbox" id="hover_preview">
+                            <label for="hover_preview" class="sub-text">Hover to preview details</label>
+                        </div>
+                        <div class="sub-option">
+                            <input type="checkbox" id="hide_completed">
+                            <label for="hide_completed" class="sub-text">Hide completed</label>
+                        </div>
+                        <div class="sub-option">
+                            <input type="checkbox" id="todo_hr24">
+                            <label for="todo_hr24" class="sub-text">Use 24 hr format</label>
+                        </div>
+                        <div class="sub-option">
+                            <input type="checkbox" id="todo_overdues">
+                            <label for="todo_overdues" class="sub-text">Show past due</label>
+                        </div>
+                        <div class="sub-option">
+                            <input type="checkbox" id="todo_colors">
+                            <label for="todo_colors" class="sub-text">Use card colors</label>
+                        </div>
+                        <div style="margin-top: 5px">
+                            <span class="sub-text">Max items: </span><span id="num_todo_items_value"></span>
+                            <input type="range" min="1" max="7" id="numTodoItemsSlider" data-option="num_todo_items">
+                        </div>
+                    </div>
+                </div>
+                <div class="option-container" style="display:flex;flex-direction:column;gap:6px;">
+                    <div class="option" id="dashboard_notes">
+                        <input type="radio" id="off" name="dashboard_notes">
+                        <input type="radio" id="on" name="dashboard_notes">
+                        <div class="slider"><div class="sliderknob"></div><div class="sliderbg"></div></div>
+                        <span class="option-name">Dashboard notes</span>
+                    </div>
+                    <div class="option" id="condensed_cards">
+                        <input type="radio" id="off" name="condensed_cards">
+                        <input type="radio" id="on" name="condensed_cards">
+                        <div class="slider"><div class="sliderknob"></div><div class="sliderbg"></div></div>
+                        <span class="option-name">Condensed cards</span>
+                    </div>
+                    <div class="option" id="hide_feedback">
+                        <input type="radio" id="off" name="hide_feedback">
+                        <input type="radio" id="on" name="hide_feedback">
+                        <div class="slider"><div class="sliderknob"></div><div class="sliderbg"></div></div>
+                        <span class="option-name">Hide recent feedback</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="host-box">
+            <label for="canvas_host" class="sub-text">Your Canvas address</label>
+            <div class="host-row">
+                <input type="text" id="canvas_host" placeholder="e.g. canvas.sydney.edu.au" spellcheck="false" autocomplete="off">
+                <button id="save_host">Save</button>
+            </div>
+            <p class="sub-text" id="host_status">Schools on *.instructure.com work without this.</p>
+        </div>
+        <button class="tool-btn" id="openDownloader">Download course files</button>
+        <p class="credit">Based on <a href="https://github.com/UseBetterCanvas/bettercanvas" target="_blank">Better Canvas</a> (AGPL-3.0).</p>
+    </div>
+
+    <script src="../js/popup.js"></script>
+</body>
+
+</html>
