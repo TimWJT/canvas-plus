@@ -93,6 +93,16 @@ async function scanCourse(courseId) {
       }
     }));
 
+    // Canvas display names can drop the extension ("Tutorial 02 Solution"), so take it from the real filename or type.
+    function withExtension(name, f) {
+      if (/\.[a-z0-9]{2,5}$/i.test(name)) return name;
+      const fromFile = decodeURIComponent(f.filename || "").match(/\.[a-z0-9]{2,5}$/i)?.[0];
+      const types = { "application/pdf": ".pdf", "application/zip": ".zip", "video/mp4": ".mp4",
+        "application/vnd.openxmlformats-officedocument.wordprocessingml.document": ".docx",
+        "application/vnd.openxmlformats-officedocument.presentationml.presentation": ".pptx" };
+      return name + (fromFile || types[f["content-type"]] || "");
+    }
+
     return {
       id: courseId,
       code,
@@ -103,7 +113,7 @@ async function scanCourse(courseId) {
           const f = fileInfo[it.id] || {};
           return {
             id: it.content_id,
-            name: f.display_name || it.title,
+            name: withExtension(f.display_name || it.title, f),
             size: f.size || 0,
             url: f.url || "",
             locked: !!f.locked_for_user || !f.url,
