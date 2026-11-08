@@ -4,16 +4,11 @@
   "version": "1.0.0",
   "description": "Dark mode, assignments on course cards, a better to-do list, dashboard notes, due-date reminders and bulk course-file downloads for Canvas LMS. Based on Better Canvas.",
   "icons": {
-    "16": "icon/icon-16.png",
-    "32": "icon/icon-32.png",
-    "48": "icon/icon-48.png",
-    "128": "icon/icon-128.png"
+    "48": "icon.svg",
+    "96": "icon.svg"
   },
   "action": {
-    "default_icon": {
-      "16": "icon/icon-16.png",
-      "32": "icon/icon-32.png"
-    },
+    "default_icon": "icon.svg",
     "default_popup": "html/popup.html",
     "default_title": "More Settings for Canvas"
   },
@@ -76,10 +71,7 @@
   "sidebar_action": {
     "default_panel": "html/downloader.html?sidebar=1",
     "default_title": "Canvas downloads",
-    "default_icon": {
-      "16": "icon/icon-16.png",
-      "32": "icon/icon-32.png"
-    },
+    "default_icon": "icon.svg",
     "open_at_install": false
   },
   "optional_host_permissions": [
