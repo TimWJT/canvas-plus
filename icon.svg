@@ -1,9 +1,22 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
-  <!-- red tile with a graduation cap and a small settings badge -->
+  <!-- red tile with a Canvas-style ring of dots and bars, plus a small settings badge -->
+  <defs>
+    <path id="b" d="M29 11.5v6" stroke="#fff" stroke-width="5" stroke-linecap="round"/>
+    <circle id="d" cx="29" cy="22.5" r="2.6" fill="#fff"/>
+  </defs>
   <rect x="2" y="6" width="54" height="50" rx="12" fill="#e4283a"/>
-  <path d="M29 15 8 25l21 10 21-10z" fill="#fff"/>
-  <path d="M17 30v9c0 4 6 7 12 7s12-3 12-7v-9l-12 6z" fill="#fff" opacity=".85"/>
-  <path d="M47 27v8" stroke="#fff" stroke-width="2.4" stroke-linecap="round"/>
+  <g>
+    <use href="#b"/><use href="#b" transform="rotate(45 29 31)"/>
+    <use href="#b" transform="rotate(90 29 31)"/><use href="#b" transform="rotate(135 29 31)"/>
+    <use href="#b" transform="rotate(180 29 31)"/><use href="#b" transform="rotate(225 29 31)"/>
+    <use href="#b" transform="rotate(270 29 31)"/><use href="#b" transform="rotate(315 29 31)"/>
+  </g>
+  <g>
+    <use href="#d" transform="rotate(22.5 29 31)"/><use href="#d" transform="rotate(67.5 29 31)"/>
+    <use href="#d" transform="rotate(112.5 29 31)"/><use href="#d" transform="rotate(157.5 29 31)"/>
+    <use href="#d" transform="rotate(202.5 29 31)"/><use href="#d" transform="rotate(247.5 29 31)"/>
+    <use href="#d" transform="rotate(292.5 29 31)"/><use href="#d" transform="rotate(337.5 29 31)"/>
+  </g>
   <circle cx="50" cy="50" r="12" fill="#fff"/>
   <g stroke="#e4283a" stroke-width="2.4" stroke-linecap="round"><path d="M43 46h14M43 54h14"/></g>
   <g fill="#e4283a"><circle cx="47" cy="46" r="2.8"/><circle cx="53" cy="54" r="2.8"/></g>
