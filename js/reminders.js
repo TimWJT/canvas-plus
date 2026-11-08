@@ -107,8 +107,8 @@ function getRelativeDate(date, short = false) {
 }
 
 // On other sites, show reminders now and every minute. Canvas pages are handled by content.js.
-if (window.top === window && !window.canvasPlusReminders) {
-    window.canvasPlusReminders = true;
+if (window.top === window && !window.moreSettingsCanvasReminders) {
+    window.moreSettingsCanvasReminders = true;
     chrome.storage.sync.get("canvas_host").then(({ canvas_host }) => {
         if (isCanvasHost(location.hostname, canvas_host)) return;
         setTimeout(reminderWatch, 2000);

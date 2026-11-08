@@ -51,7 +51,7 @@ document.getElementById("openDownloader").addEventListener("click", () => {
     window.close();
 });
 
-// Canvas address: saving asks Firefox for access to that site, then background.js turns Canvas Plus on there.
+// Canvas address: saving asks Firefox for access to that site, then background.js turns the add-on on there.
 const hostInput = document.getElementById("canvas_host");
 const hostStatus = document.getElementById("host_status");
 chrome.storage.sync.get("canvas_host", ({ canvas_host }) => { hostInput.value = canvas_host || ""; });

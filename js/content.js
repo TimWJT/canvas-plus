@@ -1,4 +1,4 @@
-// Canvas Plus: a trimmed fork of Better Canvas (AGPL-3.0, github.com/UseBetterCanvas/bettercanvas).
+// More Settings for Canvas: a trimmed fork of Better Canvas (AGPL-3.0, github.com/UseBetterCanvas/bettercanvas).
 // Runs on *.instructure.com and on the Canvas address saved in the popup. reminders.js loads first and provides
 // makeElement, getRelativeDate, createReminder, insertReminders and reminderWatch.
 const domain = window.location.origin;
@@ -859,5 +859,5 @@ function formatCardDue(date) {
 }
 
 function logError(e) {
-    console.warn("Canvas Plus:", e);
+    console.warn("More Settings for Canvas:", e);
 }

@@ -1,6 +1,6 @@
 {
   "manifest_version": 3,
-  "name": "Canvas Plus",
+  "name": "More Settings for Canvas",
   "version": "1.0.0",
   "description": "Dark mode, assignments on course cards, a better to-do list, dashboard notes, due-date reminders and bulk course-file downloads for Canvas LMS. Based on Better Canvas.",
   "icons": {
@@ -15,7 +15,7 @@
       "32": "icon/icon-32.png"
     },
     "default_popup": "html/popup.html",
-    "default_title": "Canvas Plus"
+    "default_title": "More Settings for Canvas"
   },
   "background": {
     "scripts": [
@@ -61,7 +61,7 @@
   ],
   "browser_specific_settings": {
     "gecko": {
-      "id": "canvas-plus@timwjt",
+      "id": "more-settings-for-canvas@timwjt",
       "strict_min_version": "128.0",
       "data_collection_permissions": {
         "required": [
@@ -75,7 +75,7 @@
   ],
   "sidebar_action": {
     "default_panel": "html/downloader.html?sidebar=1",
-    "default_title": "Canvas Plus downloads",
+    "default_title": "Canvas downloads",
     "default_icon": {
       "16": "icon/icon-16.png",
       "32": "icon/icon-32.png"

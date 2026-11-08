@@ -1,4 +1,4 @@
-# Canvas Plus
+# More Settings for Canvas
 
 A trimmed Firefox extension for Canvas LMS. It works straight away on any school whose Canvas is at `*.instructure.com`. If your uni uses its own address (e.g. `canvas.sydney.edu.au`), type it into **Your Canvas address** in the popup once and allow access when Firefox asks.
 
@@ -6,7 +6,7 @@ It's a fork of [Better Canvas](https://github.com/UseBetterCanvas/bettercanvas) 
 
 ## Features
 
-- **On/off switch** at the top of the popup turns all of Canvas Plus off (Canvas goes back to normal and reminders stop) without uninstalling it
+- **On/off switch** at the top of the popup turns all of it off (Canvas goes back to normal and reminders stop) without uninstalling it
 - **Dark mode**, using Better Canvas's default dark colours
 - **Card assignments**: upcoming work on each course card, with dd/mm dates, past-due items, relative due dates and a max-items slider
 - **Better to-do list**: hover preview, hide completed, 24-hour time, past due, card colours, max items, labels, cross-off, and custom "+ Add" items
