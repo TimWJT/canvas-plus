@@ -25,7 +25,7 @@ Works straight away on any `*.instructure.com` Canvas and on canvas.sydney.edu.a
 
 Based on [Better Canvas](https://github.com/UseBetterCanvas/bettercanvas) by ksucpea (AGPL-3.0). Source: https://github.com/TimWJT/more-settings-for-canvas
 
-No data collected. Only talks to your own Canvas site. Not affiliated with Instructure or Better Canvas.
+No data sent to the developer or anyone else. Only talks to your own Canvas site. Settings, dashboard notes and upcoming assignment titles are kept in Firefox's own storage, which Firefox Sync copies between your devices if you use it. Not affiliated with Instructure or Better Canvas.
 
 ## Categories
 Appearance, Download Management
@@ -40,11 +40,11 @@ GNU Affero General Public License v3.0 only (required: it's a fork of Better Can
 https://github.com/TimWJT/more-settings-for-canvas
 
 ## Privacy policy
-Leave "This add-on has a Privacy Policy" unticked. It collects nothing.
+Leave "This add-on has a Privacy Policy" unticked. Nothing is sent to the developer; data stays in Firefox's own (optionally synced) storage.
 
 ## Notes for the reviewer
 - No build step and no minified code. The files you upload are the source. Fork of Better Canvas 5.12.0 (AGPL-3.0); some innerHTML warnings come from that original code and only insert Canvas's own data or fixed strings.
 - Canvas features only run on `*.instructure.com`, canvas.sydney.edu.au, and one extra address the user types in the popup. That address is requested at runtime through the optional `https://*/*` host permission and registered with `scripting`.
-- `https://*/*` content script: only the small `js/reminders.js`, which shows a due-soon reminder from data already in storage. It makes no requests.
-- `downloads`: saves course files the user ticks into `Downloads/Canvas/<unit>/<module>/`.
+- `https://*/*` content script: only the small `js/reminders.js`, which shows a due-soon reminder from data already in storage. It makes no requests, and draws the reminder inside a closed shadow root so the site's scripts can't read the assignment titles or links.
+- `downloads`: saves course files the user ticks into `Downloads/Canvas/<unit>/<module>/`. The background only accepts download requests from the add-on's own downloader page, and only for https links on a Canvas address.
 - No network requests except to the user's Canvas site. No remote code, no analytics.

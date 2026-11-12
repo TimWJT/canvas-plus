@@ -1,29 +1,34 @@
 // Settings menu. Every control writes straight to storage.sync; content.js listens and applies it live.
-const switches = ["enabled", "dark_mode", "assignments_due", "remind", "better_todo", "dashboard_notes", "condensed_cards", "hide_feedback"];
+const switches = ["dark_mode", "assignments_due", "remind", "better_todo", "dashboard_notes", "condensed_cards", "hide_feedback"];
 const checkboxes = ["assignment_date_format", "card_overdues", "relative_dues", "hover_preview", "hide_completed", "todo_hr24", "todo_overdues", "todo_colors"];
 const sliders = ["num_assignments", "num_todo_items"];
 
 chrome.storage.sync.get([...switches, ...checkboxes, ...sliders], sync => {
     switches.forEach(option => {
         const el = document.getElementById(option);
-        const on = el.querySelector("#on");
-        const off = el.querySelector("#off");
+        const on = el.querySelector(".on");
+        const off = el.querySelector(".off");
+        const slider = el.querySelector(".slider");
+        // the slider is a real switch for keyboards and screen readers too
+        slider.setAttribute("role", "switch");
+        slider.tabIndex = 0;
+        slider.setAttribute("aria-label", el.querySelector(".option-name").textContent);
         const show = state => {
             on.checked = state;
             off.checked = !state;
             on.classList.toggle("checked", state);
             off.classList.toggle("checked", !state);
-            if (option === "enabled") {
-                document.getElementById("enabled_label").textContent = state ? "On" : "Off";
-                document.querySelector(".options").classList.toggle("all-off", !state);
-            }
+            slider.setAttribute("aria-checked", String(state));
         };
-        // the master switch counts as on unless it has been turned off
-        show(option === "enabled" ? sync[option] !== false : sync[option] === true);
-        el.querySelector(".slider").addEventListener("mouseup", () => {
+        show(sync[option] === true);
+        const flip = () => {
             const state = !on.checked;
             show(state);
             chrome.storage.sync.set({ [option]: state });
+        };
+        slider.addEventListener("click", flip);
+        slider.addEventListener("keydown", e => {
+            if (e.key === " " || e.key === "Enter") { e.preventDefault(); flip(); }
         });
     });
 
@@ -45,6 +50,45 @@ chrome.storage.sync.get([...switches, ...checkboxes, ...sliders], sync => {
     });
 });
 
+// Power button: turns the whole add-on off on Canvas. Saves at once but never reloads a page;
+// on a Canvas tab it offers a Reload button instead.
+(async () => {
+    const $ = id => document.getElementById(id);
+    const [{ enabled, canvas_host }, [tab]] = await Promise.all([
+        chrome.storage.sync.get(["enabled", "canvas_host"]),
+        chrome.tabs.query({ active: true, currentWindow: true }),
+    ]);
+    let onCanvas = false;
+    try {
+        const host = new URL(tab.url).hostname;
+        onCanvas = (host.endsWith(".instructure.com") || host === "canvas.sydney.edu.au") || (!!canvas_host && host === canvas_host.split(":")[0]);
+    } catch { /* about: pages */ }
+    const startOn = enabled !== false;
+    let on = startOn;
+    const show = () => {
+        $("power").setAttribute("aria-checked", String(on));
+        $("power").title = on ? "Turn the add-on off" : "Turn the add-on on";
+        document.body.classList.toggle("off", !on);
+        $("rest").inert = !on;
+        const changed = on !== startOn && onCanvas;
+        $("off-msg").textContent = on
+            ? (changed ? "Back on. Reload to use it on this page." : "")
+            : "Off. Nothing is changed on Canvas." + (changed ? " Reload to see this page without it." : "");
+        $("off-reload").hidden = !changed;
+        $("off-bar").hidden = !$("off-msg").textContent;
+    };
+    show();
+    $("power").addEventListener("click", () => {
+        on = !on;
+        show();
+        chrome.storage.sync.set({ enabled: on });
+    });
+    $("off-reload").addEventListener("click", async () => {
+        await chrome.tabs.reload(tab.id);
+        window.close();
+    });
+})();
+
 // Opens the downloader in Firefox's sidebar, which stays open while you click around the page.
 document.getElementById("openDownloader").addEventListener("click", () => {
     browser.sidebarAction.open(); // must run straight from the click, before anything async
@@ -62,7 +106,7 @@ function cleanHost(text) {
 
 document.getElementById("save_host").addEventListener("click", () => {
     const host = cleanHost(hostInput.value);
-    if (host && !/^[a-z0-9.-]+\.[a-z]{2,}(:\d+)?$/.test(host)) {
+    if (host && !/^[a-z0-9.-]+\.[a-z]{2,}$/.test(host)) {
         hostStatus.textContent = "That doesn't look like a web address.";
         return;
     }
@@ -70,7 +114,7 @@ document.getElementById("save_host").addEventListener("click", () => {
     // both calls start straight from the click: Firefox only shows the permission prompt for a click,
     // and the popup can close when the prompt appears
     chrome.storage.sync.set({ canvas_host: host });
-    if (!host || host.endsWith(".instructure.com")) {
+    if (!host || (host.endsWith(".instructure.com") || host === "canvas.sydney.edu.au")) {
         hostStatus.textContent = host ? "Saved. Reload your Canvas tab." : "Cleared.";
         return;
     }

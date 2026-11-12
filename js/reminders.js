@@ -2,7 +2,7 @@
 
 // True for Canvas pages, where content.js handles reminders instead.
 function isCanvasHost(host, canvasHost) {
-    return host.endsWith(".instructure.com") || (!!canvasHost && host === canvasHost);
+    return (host.endsWith(".instructure.com") || host === "canvas.sydney.edu.au") || (!!canvasHost && host === canvasHost.split(":")[0]);
 }
 
 // var, not const: on a custom Canvas address this file can be injected twice
@@ -42,10 +42,12 @@ function createReminder(reminder, location) {
     const wrapper = makeElement("div", location, { "className": "bettercanvas-reminder-wrapper" });
     const container = makeElement("div", wrapper, { "className": "bettercanvas-reminder-container" });
     const svg = makeElement("div", container, { "innerHTML": canvas_svg });
-    const content = makeElement("a", container, { "className": "bettercanvas-reminder-content", "href": reminder.h });
+    const content = makeElement("a", container, { "className": "bettercanvas-reminder-content", "href": reminder.h || "#" });
     const title = makeElement("h2", content, { "className": "bettercanvas-reminder-title", "textContent": reminder.t });
     const due = makeElement("p", content, { "className": "bettercanvas-reminder-due", "textContent": `Assignment due in ${remaining.time}` });
-    const hidebtn = makeElement("button", wrapper, { "className": "bettercanvas-reminder-hide", "textContent": "x" });
+    const hidebtn = makeElement("button", wrapper, { "className": "bettercanvas-reminder-hide", "textContent": "×", "type": "button" });
+    hidebtn.setAttribute("aria-label", "Dismiss reminder");
+    hidebtn.title = "Dismiss reminder";
     hidebtn.addEventListener("click", () => {
         hideReminder(reminder.h);
         wrapper.remove();
@@ -53,25 +55,63 @@ function createReminder(reminder, location) {
     return container;
 }
 
+// Reminders sit in a closed shadow root, so the site's own scripts can't read the assignment titles
+// or change the links (in Firefox the page also can't intercept attachShadow, as content scripts
+// see the real DOM methods). Styles live here because page CSS doesn't reach inside the shadow.
+const REMINDER_CSS = `
+:host{all:initial;position:fixed!important;bottom:0!important;right:0!important;margin:20px!important;z-index:2147483647!important;display:flex;flex-direction:column;gap:10px;font-family:system-ui,sans-serif;animation:.4s ease slide}
+:host([hidden]){display:none!important}
+.bettercanvas-reminder-wrapper{overflow:hidden;position:relative;display:flex;justify-content:space-between;gap:10px;align-items:center;background:#fff;border-radius:12px;min-width:320px;max-width:320px;box-shadow:0 2px 5px rgb(0 0 0 / 30%);opacity:.94}
+.bettercanvas-reminder-container{display:flex;gap:10px;padding:22px 16px}
+.bettercanvas-reminder-title{font-weight:bold;font-size:16px;color:#000;margin:0;line-height:1.2}
+.bettercanvas-reminder-due{font-size:12px;margin:5px 0 0;line-height:1.2;color:#676767}
+.bettercanvas-reminder-hide{color:#000;padding:0;font-size:16px;border:0;min-width:28px;width:28px;margin:10px;border-radius:6px;cursor:pointer;display:flex;align-self:stretch;align-items:center;justify-content:center;background:#e9e9e9}
+.bettercanvas-reminder-hide:focus-visible,.bettercanvas-reminder-content:focus-visible{outline:2px solid #2d6cdf;outline-offset:2px}
+.bettercanvas-reminder-content{text-decoration:none}
+@keyframes slide{from{transform:translateX(340px)}to{transform:none}}
+@media (prefers-reduced-motion:reduce){:host{animation:none}}
+`;
+let reminderHost = null, reminderRoot = null;
+function reminderBox() {
+    if (!reminderHost || !reminderHost.isConnected) {
+        reminderHost = document.createElement("div");
+        reminderHost.id = "bettercanvas-reminders";
+        reminderRoot = reminderHost.attachShadow({ mode: "closed" });
+        (document.body || document.documentElement).appendChild(reminderHost);
+    }
+    reminderRoot.textContent = "";
+    const style = document.createElement("style");
+    style.textContent = REMINDER_CSS;
+    reminderRoot.appendChild(style);
+    reminderHost.hidden = false;
+    return reminderRoot;
+}
+function hideReminderBox() {
+    if (reminderHost) reminderHost.hidden = true;
+}
+
+let shownReminders = "";
 async function reminderWatch() {
-    const existing = document.getElementById("bettercanvas-reminders");
     const { remind, enabled } = await chrome.storage.sync.get(["remind", "enabled"]);
     if (remind !== true || enabled === false) {
-        if (existing) existing.style.display = "none";
+        hideReminderBox();
+        shownReminders = "";
         return;
     }
-    const container = existing || makeElement("div", document.body, { "id": "bettercanvas-reminders" });
-    container.style.display = "flex";
-    container.textContent = "";
     const firstAlert = 1000 * 60 * 60 * 6 * 50; // as in Better Canvas: anything due in the next ~12 days
     const secondAlert = 1000 * 60 * 60 * 2;     // after hiding once, shows again in the last 2 hours
     const now = Date.now();
     const saved = await getReminders();
     const upcoming = saved.filter(r => r.d >= now);
-    upcoming.forEach(r => {
-        if ((r.c === 0 && r.d < now + firstAlert) || (r.c === 1 && r.d < now + secondAlert)) createReminder(r, container);
-    });
     if (upcoming.length !== saved.length) chrome.storage.sync.set({ "reminders": upcoming });
+    const show = upcoming.filter(r => (r.c === 0 && r.d < now + firstAlert) || (r.c === 1 && r.d < now + secondAlert));
+    // only rebuild when something changed (the due text rounds to minutes, so include that)
+    const key = JSON.stringify(show.map(r => [r.h, r.c, getRelativeDate(new Date(r.d)).time]));
+    if (key === shownReminders && reminderHost?.isConnected && !reminderHost.hidden) return;
+    shownReminders = key;
+    if (!show.length) return hideReminderBox();
+    const box = reminderBox();
+    show.forEach(r => createReminder(r, box));
 }
 
 function makeElement(element, location, options) {
@@ -114,7 +154,7 @@ if (window.top === window && !window.moreSettingsCanvasReminders) {
         setTimeout(reminderWatch, 2000);
         setInterval(reminderWatch, 60000);
         chrome.storage.onChanged.addListener((changes, area) => {
-            if (area === "sync" && (changes.remind || changes.enabled)) reminderWatch();
+            if (area === "sync" && (changes.remind || changes.enabled || changes.reminders)) reminderWatch();
         });
     });
 }

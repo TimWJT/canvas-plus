@@ -1,6 +1,6 @@
 # More Settings for Canvas
 
-A trimmed Firefox extension for Canvas LMS. It works straight away on any school whose Canvas is at `*.instructure.com`. If your uni uses its own address (e.g. `canvas.sydney.edu.au`), type it into **Your Canvas address** in the popup once and allow access when Firefox asks.
+A trimmed Firefox extension for Canvas LMS. It works straight away on USyd (`canvas.sydney.edu.au`) and any school whose Canvas is at `*.instructure.com`. If your uni uses another address (e.g. `canvas.unsw.edu.au`), type it into **Your Canvas address** in the popup once and allow access when Firefox asks.
 
 It's a fork of [Better Canvas](https://github.com/UseBetterCanvas/bettercanvas) by ksucpea, licensed under AGPL-3.0, so this is AGPL-3.0 too (see `LICENSE`). If you publish it, its source has to stay public.
 
@@ -29,7 +29,7 @@ Removed:
 - everything under "More options": dark mode editor, card customisation, card colour palettes, themes and the online theme browser, fonts, GPA settings, report issue, and updates
 
 How it differs under the hood:
-- The Canvas features only run on Canvas: `*.instructure.com`, plus the one address you save in the popup (registered at runtime in `js/background.js`). Every other site gets only the small reminder script (`js/reminders.js`), not the whole extension.
+- The Canvas features only run on Canvas: `*.instructure.com` and `canvas.sydney.edu.au`, plus the one address you save in the popup (registered at runtime in `js/background.js`). Every other site gets only the small reminder script (`js/reminders.js`), not the whole extension.
 - It makes no network requests except to Canvas. There are no Google Fonts, no theme server and no uninstall page.
 - Course names and colours are fetched once per dashboard visit in one step, instead of needing the popup to be opened.
 

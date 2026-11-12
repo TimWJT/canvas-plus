@@ -49,20 +49,33 @@ chrome.runtime.onInstalled.addListener(async () => {
 });
 
 // Course file downloader: queued here so downloads keep going after the popup closes.
-(globalThis.browser || chrome).runtime.onMessage.addListener((msg) => {
-    if (msg.type !== "download") return;
+// Only the add-on's own downloader page may ask, and only for https files on a Canvas address.
+(globalThis.browser || chrome).runtime.onMessage.addListener((msg, sender) => {
+    if (msg?.type !== "download") return;
+    if (!sender.url || !sender.url.startsWith(chrome.runtime.getURL("html/downloader.html"))) return;
     return queueDownloads(msg);
 });
 
+function isCanvasHostname(host, canvasHost) {
+    return host.endsWith(".instructure.com") || host === "canvas.sydney.edu.au" || (!!canvasHost && host === canvasHost.split(":")[0]);
+}
+
 async function queueDownloads({ courseId, files }) {
+    if (!/^\d+$/.test(String(courseId)) || !Array.isArray(files)) return { queued: 0, failed: [], done: [] };
+    const { canvas_host } = await chrome.storage.sync.get("canvas_host");
     const key = "done_" + courseId;
     const done = new Set((await chrome.storage.local.get(key))[key] || []);
     let queued = 0;
     const failed = [];
+    const ok = [];
     for (const f of files) {
         try {
+            const url = new URL(f.url);
+            if (url.protocol !== "https:" || !isCanvasHostname(url.hostname, canvas_host)) throw new Error("Not a Canvas file link");
+            if (typeof f.filename !== "string" || f.filename.split("/").some(part => part === ".." || part === "")) throw new Error("Bad file name");
             await chrome.downloads.download({ url: f.url, filename: f.filename, conflictAction: "uniquify", saveAs: false });
             done.add(f.id);
+            ok.push(f.id);
             queued++;
         } catch (e) {
             console.warn("Download failed", f.filename, e);
@@ -70,10 +83,10 @@ async function queueDownloads({ courseId, files }) {
         }
     }
     await chrome.storage.local.set({ [key]: [...done] });
-    return { queued, failed };
+    return { queued, failed, done: ok };
 }
 
-// Canvas on a uni's own address (e.g. canvas.sydney.edu.au) can't be listed in the manifest,
+// Canvas on a uni's own address (e.g. canvas.unsw.edu.au) can't be listed in the manifest,
 // so once you save it in the popup and allow access, the Canvas scripts are registered for it here.
 const CUSTOM_ID = "custom-canvas";
 
@@ -81,14 +94,14 @@ async function syncCanvasScripts() {
     const { canvas_host } = await chrome.storage.sync.get("canvas_host");
     const existing = await chrome.scripting.getRegisteredContentScripts({ ids: [CUSTOM_ID] });
     if (existing.length) await chrome.scripting.unregisterContentScripts({ ids: [CUSTOM_ID] });
-    if (!canvas_host || canvas_host.endsWith(".instructure.com")) return; // covered by the manifest
+    if (!canvas_host || (canvas_host.endsWith(".instructure.com") || canvas_host === "canvas.sydney.edu.au")) return; // covered by the manifest
     const match = `https://${canvas_host}/*`;
     if (!(await chrome.permissions.contains({ origins: [match] }))) return;
     await chrome.scripting.registerContentScripts([{
         id: CUSTOM_ID,
         matches: [match],
         js: ["js/reminders.js", "js/content.js"],
-        css: ["css/content.css", "css/reminders.css"],
+        css: ["css/content.css"],
         runAt: "document_start",
         persistAcrossSessions: false,
     }]);

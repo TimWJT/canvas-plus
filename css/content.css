@@ -2,7 +2,7 @@
 .hypodivcalc span {font-weight: bold}
 .hypodivcalc{display: flex;min-width:calc(33.33% - 50px);box-shadow: #9da5ab80 0px 2px 5px;align-items:center;background-color:#eee;border-radius:7px;margin:10px 5px 0;padding:20px;width:calc(33.33% - 50px);}
 .hypocalcform span{font-weight:700;min-width:50%;}
-.ic-DashboardCard__header_hero {border:0!important}
+html.msfc-on .ic-DashboardCard__header_hero {border:0!important}
 .bettercanvas-completed{text-decoration:line-through;}
 .bettercanvas-completed a{text-decoration:line-through;}
 .extension-embed-hidden {display: none!important}
@@ -60,7 +60,8 @@
 .bettercanvas-assignment-overdue { background: #db3754!important;color:#fff!important;}
 .bettercanvas-todo-label-btn {display:inline-block;margin:0px 2px 2px 0;background: #f5f5f5;border:1px solid #c7cdd1;padding: 2px;border-radius:4px;}
 .bettercanvas-todo-label {background: var(--ic-link-color);color:#fff;padding:2px 4px;border-radius:3px;display:inline;height:100%;margin-right:5px;}
-.bettercanvas-todo-action {border-radius: 5px;}
+.bettercanvas-todo-action {border-radius: 5px;width:100%;border:0;background:none;font:inherit;color:inherit;text-align:left;}
+.bettercanvas-todo-action:focus-visible, .bettercanvas-todo-actions-btn:focus-visible {outline:2px solid #2d6cdf;outline-offset:1px;}
 .bettercanvas-todo-actions {position: absolute; top: 0; right: 0; background: #fff;width:110px;font-weight:bold; color:#000;display:none;z-index:1000;border-radius:3px;border: 1px solid #c7cdd1;padding:10px}
 .bettercanvas-todo-actions-btn { border:1px solid transparent; height: 20px;width: 20px;background: none;padding: 0;margin: 0;border-radius:3px;}
 .bettercanvas-todo-action, .bettercanvas-todo-action-tag { padding: 4px; margin: -2px 0;display:flex;justify-content: space-between;align-items:center;}
@@ -85,8 +86,8 @@
 }
 
 /* Grades page sidebar: let long buttons like "Show Saved What-If Scores" wrap instead of spilling out of their box */
-#student-grades-right-content .Button,
-#student-grades-right-content button {
+html.msfc-on #student-grades-right-content .Button,
+html.msfc-on #student-grades-right-content button {
     height: auto !important;
     min-height: 0 !important;
     white-space: normal !important;

@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "More Settings for Canvas",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Dark mode, assignments on course cards, a better to-do list, dashboard notes, due-date reminders and bulk course-file downloads for Canvas LMS. Based on Better Canvas.",
   "icons": {
     "48": "icon.svg",
@@ -20,15 +20,15 @@
   "content_scripts": [
     {
       "matches": [
-        "https://*.instructure.com/*"
+        "https://*.instructure.com/*",
+        "https://canvas.sydney.edu.au/*"
       ],
       "js": [
         "js/reminders.js",
         "js/content.js"
       ],
       "css": [
-        "css/content.css",
-        "css/reminders.css"
+        "css/content.css"
       ],
       "run_at": "document_start"
     },
@@ -37,13 +37,11 @@
         "https://*/*"
       ],
       "exclude_matches": [
-        "https://*.instructure.com/*"
+        "https://*.instructure.com/*",
+        "https://canvas.sydney.edu.au/*"
       ],
       "js": [
         "js/reminders.js"
-      ],
-      "css": [
-        "css/reminders.css"
       ],
       "run_at": "document_idle"
     }
@@ -66,7 +64,8 @@
     }
   },
   "host_permissions": [
-    "https://*.instructure.com/*"
+    "https://*.instructure.com/*",
+    "https://canvas.sydney.edu.au/*"
   ],
   "sidebar_action": {
     "default_panel": "html/downloader.html?sidebar=1",

@@ -22,7 +22,7 @@ async function refresh() {
   const [tab] = await api.tabs.query({ active: true, currentWindow: true });
   const { canvas_host } = await api.storage.sync.get("canvas_host");
   const m = tab?.url?.match(/^https:\/\/([^/]+)\/courses\/(\d+)/);
-  const onCanvas = m && (m[1].endsWith(".instructure.com") || m[1] === canvas_host);
+  const onCanvas = m && ((m[1].endsWith(".instructure.com") || m[1] === "canvas.sydney.edu.au") || m[1] === canvas_host);
   const id = onCanvas ? m[2] : null;
   if (scanning === id) return; // same course as before, so keep your ticks
   scanning = id;
@@ -41,7 +41,7 @@ async function init(tab, courseId) {
   setStatus("Reading modules…");
   const [res] = await api.scripting.executeScript({
     target: { tabId: tab.id },
-    world: "MAIN",
+    world: "ISOLATED", // not the page's own world, so Canvas page scripts can't change the file list or links
     func: scanCourse,
     args: [m[1]],
   });
@@ -54,7 +54,7 @@ async function init(tab, courseId) {
   render();
 }
 
-// Runs inside the Canvas tab, so the requests use your Canvas login.
+// Runs inside the Canvas tab (as a content script), so the requests use your Canvas login.
 async function scanCourse(courseId) {
   const base = location.origin + "/api/v1";
   async function getAll(url) {
@@ -232,8 +232,17 @@ async function download() {
     url: f.url,
     filename: ["Canvas", clean(course.code), pad(mod.position) + " " + clean(mod.name), clean(f.name)].join("/"),
   }));
-  const res = await api.runtime.sendMessage({ type: "download", courseId: course.id, files });
-  sel.forEach(({ f }) => done.add(f.id));
+  let res;
+  try {
+    res = await api.runtime.sendMessage({ type: "download", courseId: course.id, files });
+    if (!res) throw new Error("no reply");
+  } catch (e) {
+    setStatus("Couldn't start the downloads: " + e.message);
+    $("go").disabled = false;
+    return;
+  }
+  res.done.forEach((id) => done.add(id)); // only the ones that actually started
+  $("go").disabled = false;
   setStatus(`Started ${res.queued} downloads to Downloads/Canvas/${course.code}/` +
     (res.failed.length ? ` · ${res.failed.length} failed` : ""));
   boxes().forEach(({ cb, f }) => {

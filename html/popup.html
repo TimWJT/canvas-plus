@@ -12,27 +12,31 @@
         <div class="header">
             <img id="bclogo" src="../icon.svg" alt="">
             <h1>Canvas Settings</h1>
-            <div class="option master" id="enabled" title="Turn all of More Settings for Canvas on or off">
-                <input type="radio" id="off" name="enabled">
-                <input type="radio" id="on" name="enabled">
-                <div class="slider"><div class="sliderknob"></div><div class="sliderbg"></div></div>
-                <span class="option-name" id="enabled_label">On</span>
-            </div>
+            <button type="button" class="power icon-only" id="power" role="switch" aria-checked="true" aria-label="Add-on on or off" title="Turn the add-on off">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.5v8"/><path d="M6.6 7a7.5 7.5 0 1 0 10.8 0"/></svg>
+            </button>
         </div>
+
+        <div id="off-bar" class="off-bar" hidden>
+            <span id="off-msg" role="status" aria-live="polite"></span>
+            <button type="button" class="reload-btn" id="off-reload" hidden>Reload page</button>
+        </div>
+
+        <div id="rest">
         <div class="options">
             <div class="options-left">
                 <div class="option-container">
                     <div class="option" id="dark_mode">
-                        <input type="radio" id="off" name="dark_mode">
-                        <input type="radio" id="on" name="dark_mode">
+                        <input type="radio" class="off" tabindex="-1" aria-hidden="true" name="dark_mode">
+                        <input type="radio" class="on" tabindex="-1" aria-hidden="true" name="dark_mode">
                         <div class="slider"><div class="sliderknob"></div><div class="sliderbg"></div></div>
                         <span class="option-name">Dark mode</span>
                     </div>
                 </div>
                 <div class="option-container">
                     <div class="option" id="assignments_due">
-                        <input type="radio" id="off" name="assignments_due">
-                        <input type="radio" id="on" name="assignments_due">
+                        <input type="radio" class="off" tabindex="-1" aria-hidden="true" name="assignments_due">
+                        <input type="radio" class="on" tabindex="-1" aria-hidden="true" name="assignments_due">
                         <div class="slider"><div class="sliderknob"></div><div class="sliderbg"></div></div>
                         <span class="option-name">Card assignments</span>
                     </div>
@@ -57,8 +61,8 @@
                 </div>
                 <div class="option-container">
                     <div class="option" id="remind">
-                        <input type="radio" id="off" name="remind">
-                        <input type="radio" id="on" name="remind">
+                        <input type="radio" class="off" tabindex="-1" aria-hidden="true" name="remind">
+                        <input type="radio" class="on" tabindex="-1" aria-hidden="true" name="remind">
                         <div class="slider"><div class="sliderknob"></div><div class="sliderbg"></div></div>
                         <span class="option-name">Todo reminders</span>
                     </div>
@@ -68,8 +72,8 @@
             <div class="options-right">
                 <div class="option-container">
                     <div class="option" id="better_todo">
-                        <input type="radio" id="off" name="better_todo">
-                        <input type="radio" id="on" name="better_todo">
+                        <input type="radio" class="off" tabindex="-1" aria-hidden="true" name="better_todo">
+                        <input type="radio" class="on" tabindex="-1" aria-hidden="true" name="better_todo">
                         <div class="slider"><div class="sliderknob"></div><div class="sliderbg"></div></div>
                         <span class="option-name">Better todo list</span>
                     </div>
@@ -102,20 +106,20 @@
                 </div>
                 <div class="option-container" style="display:flex;flex-direction:column;gap:6px;">
                     <div class="option" id="dashboard_notes">
-                        <input type="radio" id="off" name="dashboard_notes">
-                        <input type="radio" id="on" name="dashboard_notes">
+                        <input type="radio" class="off" tabindex="-1" aria-hidden="true" name="dashboard_notes">
+                        <input type="radio" class="on" tabindex="-1" aria-hidden="true" name="dashboard_notes">
                         <div class="slider"><div class="sliderknob"></div><div class="sliderbg"></div></div>
                         <span class="option-name">Dashboard notes</span>
                     </div>
                     <div class="option" id="condensed_cards">
-                        <input type="radio" id="off" name="condensed_cards">
-                        <input type="radio" id="on" name="condensed_cards">
+                        <input type="radio" class="off" tabindex="-1" aria-hidden="true" name="condensed_cards">
+                        <input type="radio" class="on" tabindex="-1" aria-hidden="true" name="condensed_cards">
                         <div class="slider"><div class="sliderknob"></div><div class="sliderbg"></div></div>
                         <span class="option-name">Condensed cards</span>
                     </div>
                     <div class="option" id="hide_feedback">
-                        <input type="radio" id="off" name="hide_feedback">
-                        <input type="radio" id="on" name="hide_feedback">
+                        <input type="radio" class="off" tabindex="-1" aria-hidden="true" name="hide_feedback">
+                        <input type="radio" class="on" tabindex="-1" aria-hidden="true" name="hide_feedback">
                         <div class="slider"><div class="sliderknob"></div><div class="sliderbg"></div></div>
                         <span class="option-name">Hide recent feedback</span>
                     </div>
@@ -125,13 +129,14 @@
         <div class="host-box">
             <label for="canvas_host" class="sub-text">Your Canvas address</label>
             <div class="host-row">
-                <input type="text" id="canvas_host" placeholder="e.g. canvas.sydney.edu.au" spellcheck="false" autocomplete="off">
+                <input type="text" id="canvas_host" placeholder="e.g. canvas.unsw.edu.au" spellcheck="false" autocomplete="off">
                 <button id="save_host">Save</button>
             </div>
-            <p class="sub-text" id="host_status">Schools on *.instructure.com work without this.</p>
+            <p class="sub-text" id="host_status">USyd and schools on *.instructure.com work without this.</p>
         </div>
         <button class="tool-btn" id="openDownloader">Download course files</button>
         <p class="credit">Based on <a href="https://github.com/UseBetterCanvas/bettercanvas" target="_blank">Better Canvas</a> (AGPL-3.0).</p>
+        </div>
     </div>
 
     <script src="../js/popup.js"></script>
